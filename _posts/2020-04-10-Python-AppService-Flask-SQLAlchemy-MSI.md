@@ -26,10 +26,10 @@ For the database connection I use Flask-SQLAlchemy and SQLAlchemy in turn uses t
 
 ## First Step - Configuration of Azure resources:
 
-   1.1 set up a system assigned identity in the portal.
-   1.2 Firewall for thse SQL server should allow other Azure resources to access the database.
-   1.3 Set Active Directory ADmin for SQL server:
-   1.4 give our App Service called "az-dash-lnx" access rights to the table.
+   1. set up a system assigned identity in the portal.
+   2. Firewall for thse SQL server should allow other Azure resources to access the database.
+   3. Set Active Directory ADmin for SQL server:
+   4. give our App Service called "az-dash-lnx" access rights to the table.
 
     CREATE USER [az-dash-lnx] FROM EXTERNAL PROVIDER;
     ALTER ROLE db_datareader ADD MEMBER [az-dash-lnx];
