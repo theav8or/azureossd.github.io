@@ -147,9 +147,9 @@ exptoken += bytes(1);
 tokenstruct = struct.pack("=i", len(exptoken)) + exptoken;
 ```
 
-## Example of a database query in ODBC
+## Examples
 
-The number 1256 corresponds to the attribute "SQL_COPT_SS_ACCESS_TOKEN":
+Database query in ODBC, the number 1256 corresponds to the attribute "SQL_COPT_SS_ACCESS_TOKEN":
 
 ```python
 conn = pyodbc.connect(connstr, attrs_before = { 1256:tokenstruct });
@@ -161,7 +161,7 @@ print (str(row[2]) + " " + str(row[3]))
 row = cursor.fetchone()
 ```
 
-## Example of a query in SQLAlchemy
+Query in SQLAlchemy
 
 ```python
 params = urllib.parse.quote(connstr)
@@ -173,7 +173,7 @@ print (str(row[2]) + " " + str(row[3]))
 conn.close()
 ```
 
-## For Flask-SQLAlchemy, a configuration file config.py could contain the following settings
+For Flask-SQLAlchemy, a configuration file config.py can contain these  settings
 
 ```python
 class BaseConfig:
@@ -198,7 +198,6 @@ sh installodbc.sh
 
 Additional Samples can be found [Here](https://www.az.run/app-service-linux-python-to-sql/)
 
-## Sample Table
 
 | Table | Test | Description |
 |----|----|----|
