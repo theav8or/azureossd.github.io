@@ -25,7 +25,7 @@ In this guide I'll describe how to leverage Flask-SQLAlchemy framwork that relie
 
 ## First Step - Configuration of Azure resources
 
-   1. Set up a system assigned identity, After the examples I will explain why
+   1. Set up a system assigned identity, after the examples I will explain why
    ![assigned identity in the portal:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-1.png)
    2. Firewall for thse SQL server should allow other Azure resources to access the database.
    ![Azure Firewall:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-2.png)
