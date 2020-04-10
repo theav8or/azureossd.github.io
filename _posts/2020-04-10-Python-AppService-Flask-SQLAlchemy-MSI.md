@@ -113,9 +113,11 @@ Built in images or Custom container, here is a DockerFile for the ladder:
     SSENTRYPOINT ["python3"]
     CMD ["run.py"]
 ```
+
 3. libraries leveraged:
 
 ```python
+#libs
    import os
    import requests
    import struct
@@ -129,16 +131,19 @@ Built in images or Custom container, here is a DockerFile for the ladder:
    access_token = resp.json()['access_token']
    return access_token
 ```
+
 This function will be used later to get the access token
 
 4. The environment variables "MSI_ENDPOINT" and "MSI_SECRET" are created by the  App Service when you turn on managed identities. The server address and the database must of course also be specified:
+
 ```python
     msi_endpoint = os.environ["MSI_ENDPOINT"]
     msi_secret = os.environ["MSI_SECRET"]
     connstr="Driver={ODBC Driver 17 for SQL Server};Server=tcp:az-sqlserver-az.database.windows.net,1433;Database=az-titanicdb-jma";
 ```
+
 Retrieve  access token and convert it to struct:
-s
+
 ```python
 token = bytes(get_bearer_token("https://database.windows.net/", "2017-09-01"), "UTF-8")
 exptoken = b"";
@@ -150,7 +155,7 @@ tokenstruct = struct.pack("=i", len(exptoken)) + exptoken;
 
 Example of a database query in ODBC. The number 1256 corresponds to the attribute "SQL_COPT_SS_ACCESS_TOKEN":
 
-## Sample Code Blocks
+```python
 conn = pyodbc.connect(connstr, attrs_before = { 1256:tokenstruct });
 cursor = conn.cursor()
 cursor.execute("SELECT TOP (1000) [id],[Survived],[Pclass],[Name],[Sex],[Age],[sibling_or_spouse],[parents_or_children],[Fare] FROM [dbo].[titanic_passanger]")
@@ -158,10 +163,11 @@ row = cursor.fetchone()
 while row:
 print (str(row[2]) + " " + str(row[3]))
 row = cursor.fetchone()
+```
 
 Example of a query in SQLAlchemy:
 
-## Sample Code Blocks
+```python
 params = urllib.parse.quote(connstr)
 engine = sqlalchemy.create_engine('mssql+pyodbc:///?odbc_connect={}'.format(params) ,connect_args={'attrs_before': { 1256:tokenstruct}})
 conn = engine.connect()
@@ -169,26 +175,22 @@ result = conn.execute("SELECT TOP (10) [id],[Survived],[Pclass],[Name],[Sex],[Ag
 for row in result:
 print (str(row[2]) + " " + str(row[3]))
 conn.close()
+```
 
 For Flask-SQLAlchemy, a configuration file config.py could contain the following settings:
-## Sample Code Blocks
+
+```python
 class BaseConfig:
     SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
     SQLALCHEMY_ENGINE_OPTIONS = {'connect_args': {'attrs_before': {1256:tokenstruct}}}
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
     TESTING = False
+```
 
 
 As you can see, our code does not contain any information such as username and password. The address of our SQL server is still contained in the code, but this information can also be saved outside the program code. This code should also work in a similar form in order to grant an Azure function database access by means of managed identities.
 
-YAML
-
-```yaml
----
-something: "Something"
----
-```
 
 Bash
 
