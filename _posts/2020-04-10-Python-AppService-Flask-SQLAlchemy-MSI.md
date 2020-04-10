@@ -42,6 +42,7 @@ After our App Service and SQL database have been set up, we can now access the d
 2. Azure App Service offers two option to run Python runtime with pyodbc  (actually 3 but Windows is deprecated)
 Built in images or Custom container, here is a DockerFile for the ladder:
 
+```python
     # mssql-python3.6-pyodbc
     FROM ubuntu:16.04
 
@@ -111,9 +112,10 @@ Built in images or Custom container, here is a DockerFile for the ladder:
     WORKDIR /sampler
     SSENTRYPOINT ["python3"]
     CMD ["run.py"]
-
+```
 3. libraries leveraged:
-## Sample Code Blocks
+
+```python
    import os
    import requests
    import struct
@@ -126,21 +128,25 @@ Built in images or Custom container, here is a DockerFile for the ladder:
    resp = requests.get(token_auth_uri, headers=head_msi)
    access_token = resp.json()['access_token']
    return access_token
+```
 This function will be used later to get the access token
 
 4. The environment variables "MSI_ENDPOINT" and "MSI_SECRET" are created by the  App Service when you turn on managed identities. The server address and the database must of course also be specified:
+```python
     msi_endpoint = os.environ["MSI_ENDPOINT"]
     msi_secret = os.environ["MSI_SECRET"]
     connstr="Driver={ODBC Driver 17 for SQL Server};Server=tcp:az-sqlserver-az.database.windows.net,1433;Database=az-titanicdb-jma";
+```
 Retrieve  access token and convert it to struct:
-
-## Sample Code Blocks
+s
+```python
 token = bytes(get_bearer_token("https://database.windows.net/", "2017-09-01"), "UTF-8")
 exptoken = b"";
 for i in token:
 exptoken += bytes({i});
 exptoken += bytes(1);
 tokenstruct = struct.pack("=i", len(exptoken)) + exptoken;
+```
 
 Example of a database query in ODBC. The number 1256 corresponds to the attribute "SQL_COPT_SS_ACCESS_TOKEN":
 
