@@ -26,11 +26,11 @@ In this guide I'll describe how to leverage Flask-SQLAlchemy framwork that relie
 ## First Step - Configuration of Azure resources
 
    1. Set up a system assigned identity
-   [assigned identity in the portal:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-1.png)
+   ![assigned identity in the portal:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-1.png)
    2. Firewall for thse SQL server should allow other Azure resources to access the database.
-   [Azure Firewall:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-2.png)
+   ![Azure Firewall:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-2.png)
    3. Set Active Directory Admin for SQL server:
-   [Azure AD setup:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-3.png)
+   ![Azure AD setup:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-3.png)
    4. give our App Service (I named it "az-dash-lnx") access rights to the table.
 
     CREATE USER [az-dash-lnx] FROM EXTERNAL PROVIDER;
@@ -43,8 +43,8 @@ After our App Service and SQL database have been set up, we can now access the d
 
 ## Second Step - Deploy Python App Service
 
-1.Azure App Service offers two option to run Python runtime with pyodbc  (actually 3 but Windows is deprecated)
-![Built in images](https://github.com/Azure-App-Service/python) or ![Custom container ](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container), here is a DockerFile for the ladder:
+1. Azure App Service offers two option to run Python runtime with pyodbc  (actually 3 but Windows is deprecated)
+[Built in images](https://github.com/Azure-App-Service/python) or [Custom container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container), here is a DockerFile for the ladder:
 
 ```python
 # mssql-python3.6-pyodbc
@@ -108,7 +108,7 @@ ENTRYPOINT ["python3"]
 CMD ["run.py"]
 ```
 
-2.libraries leveraged:
+2. libraries leveraged:
 
 ```python
 #libs
@@ -128,7 +128,7 @@ CMD ["run.py"]
 
 This function will be used later to get the access token
 
-3.The environment variables "MSI_ENDPOINT" and "MSI_SECRET" are created by the  App Service when you turn on managed identities. The server address and the database must of course also be specified:
+3. Environment variables "MSI_ENDPOINT" and "MSI_SECRET" are created by the App Service when you turn on managed identities. The server address and the database must of course also be specified:
 
 ```python
     msi_endpoint = os.environ["MSI_ENDPOINT"]
@@ -187,7 +187,7 @@ class BaseConfig:
 As you can see code is avoiding credential leak and address of our SQL server is still contained in the code, however this information can also be saved outside the program code.
 This code should also work in a similar form in order to grant an Azure function database access by means of managed identities [see link](https://azure.microsoft.com/en-us/blog/simplifying-security-for-serverless-and-web-apps-with-azure-functions-and-app-service/).
 
-5.To test if ODBC is included in the underlying image, [SSH in to container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container#enable-ssh) and run:
+5. To test if ODBC is included in the underlying image, [SSH in to container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container#enable-ssh) and run:
 
 ```bash
 sudo su
