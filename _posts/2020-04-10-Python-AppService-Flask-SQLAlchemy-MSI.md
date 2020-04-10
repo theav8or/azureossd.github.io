@@ -26,7 +26,7 @@ For the database connection I use Flask-SQLAlchemy and SQLAlchemy in turn uses t
 
 ## First Step - Configuration of Azure resources:
 
-   1. set up a system assigned identity in the portal.
+   1. Set up a system assigned identity in the portal.
    2. Firewall for thse SQL server should allow other Azure resources to access the database.
    3. Set Active Directory ADmin for SQL server:
    4. give our App Service called "az-dash-lnx" access rights to the table.
@@ -56,18 +56,22 @@ Built in images or Custom container, here is a DockerFile for the ladder:
 
     # install libssl - required for sqlcmd to work on Ubuntu 18.04
     RUN apt-get update && apt-get install -y libssl1.0.0 libssl-dev
+
     # install SQL Server drivers
     RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
+
     # install SQL Server tools
     RUN apt-get update && ACCEPT_EULA=Y apt-get install -y mssql-tools
     RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
     RUN /bin/bash -c "source ~/.bashrc"
+
     # python libraries
     RUN apt-get update && apt-get install -y \
         python3-pip python3-dev python3-setuptools \
         --no-install-recommends \
         && rm -rf /var/lib/apt/lists/*
-        # install necessary locales
+
+    # install necessary locales
     RUN apt-get update && apt-get install -y locales \
         && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
         && locale-gen
@@ -105,9 +109,8 @@ Built in images or Custom container, here is a DockerFile for the ladder:
     RUN mkdir /sample
     ADD . /sample
     WORKDIR /sampler
-    ENTRYPOINT ["python3"]
+    SSENTRYPOINT ["python3"]
     CMD ["run.py"]
-    ![Required description of the image](/media/2018/02/DockerIgnore.png)
 
 3. libraries leveraged:
 ## Sample Code Blocks
