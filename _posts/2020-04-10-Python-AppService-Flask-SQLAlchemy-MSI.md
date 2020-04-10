@@ -25,7 +25,7 @@ In this guide I'll describe how to leverage Flask-SQLAlchemy framwork that relie
 
 ## First Step - Configuration of Azure resources
 
-   1. Set up a system assigned identity
+   1. Set up a system assigned identity, After the examples I will explain why
    ![assigned identity in the portal:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-1.png)
    2. Firewall for thse SQL server should allow other Azure resources to access the database.
    ![Azure Firewall:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-2.png)
@@ -44,7 +44,7 @@ After our App Service and SQL database have been set up, we can now access the d
 ## Second Step - Deploy Python App Service
 
 1) Azure App Service offers two option to run Python runtime with pyodbc  (actually 3 but Windows is deprecated)
-[Built in images](https://github.com/Azure-App-Service/python) or [Custom container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container), here is a DockerFile for the ladder.
+[Built in images](https://github.com/Azure-App-Service/python) or [Custom container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container), here is a DockerFile for the ladder:
 
 ```python
 # mssql-python3.6-pyodbc
@@ -108,7 +108,7 @@ ENTRYPOINT ["python3"]
 CMD ["run.py"]
 ```
 
-2) libraries leveraged.
+2) libraries leveraged:
 
 ```python
 #libs
@@ -161,7 +161,7 @@ print (str(row[2]) + " " + str(row[3]))
 row = cursor.fetchone()
 ```
 
-Query in SQLAlchemy
+Query in SQLAlchemy:
 
 ```python
 params = urllib.parse.quote(connstr)
@@ -173,7 +173,7 @@ print (str(row[2]) + " " + str(row[3]))
 conn.close()
 ```
 
-For Flask-SQLAlchemy, a configuration file config.py can contain these  settings
+For Flask-SQLAlchemy, a configuration file config.py can contain these settings:
 
 ```python
 class BaseConfig:
@@ -194,7 +194,6 @@ sudo su
 wget https://gallery.technet.microsoft.com/ODBC-Driver-13-for-Ubuntu-b87369f0/file/154097/2/installodbc.sh
 sh installodbc.sh
 ```
-
 
 Additional Samples can be found [Here](https://www.az.run/app-service-linux-python-to-sql/)
 
