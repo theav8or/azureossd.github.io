@@ -21,16 +21,16 @@ date: 2020-04-10 09:11:00
 
 ## Python Flask connects to SQL using sqlalchemy
 
-In this guide I'll describe how to leverage Flask-SQLAlchemy framwork that relies on ODBC Driver 17 for database connection **all** using [Manage Identity] (https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-connect-msi).
+In this guide I'll describe how to leverage Flask-SQLAlchemy framwork that relies on ODBC Driver 17 for database connection **all** using [Manage Identity](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-connect-msi).
 
 ## First Step - Configuration of Azure resources
 
    1. Set up a system assigned identity
-   ![ assigned identity in the portal:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-1.png)
+   [assigned identity in the portal:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-1.png)
    2. Firewall for thse SQL server should allow other Azure resources to access the database.
-   ![ Azure Firewall:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-2.png)
+   [Azure Firewall:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-2.png)
    3. Set Active Directory Admin for SQL server:
-   ![ Azure AD setup:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-3.png)
+   [Azure AD setup:](https://ghost-azure9135.azurewebsites.net/content/images/2020/03/image-3.png)
    4. give our App Service (I named it "az-dash-lnx") access rights to the table.
 
     CREATE USER [az-dash-lnx] FROM EXTERNAL PROVIDER;
