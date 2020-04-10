@@ -43,8 +43,8 @@ After our App Service and SQL database have been set up, we can now access the d
 
 ## Second Step - Deploy Python App Service
 
-1. Azure App Service offers two option to run Python runtime with pyodbc  (actually 3 but Windows is deprecated)
-[Built in images](https://github.com/Azure-App-Service/python) or [Custom container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container), here is a DockerFile for the ladder:
+1) Azure App Service offers two option to run Python runtime with pyodbc  (actually 3 but Windows is deprecated)
+[Built in images](https://github.com/Azure-App-Service/python) or [Custom container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container), here is a DockerFile for the ladder.
 
 ```python
 # mssql-python3.6-pyodbc
@@ -108,7 +108,7 @@ ENTRYPOINT ["python3"]
 CMD ["run.py"]
 ```
 
-2. libraries leveraged:
+2) libraries leveraged.
 
 ```python
 #libs
@@ -128,7 +128,7 @@ CMD ["run.py"]
 
 This function will be used later to get the access token
 
-3. Environment variables "MSI_ENDPOINT" and "MSI_SECRET" are created by the App Service when you turn on managed identities. The server address and the database must of course also be specified:
+3) Environment variables "MSI_ENDPOINT" and "MSI_SECRET" are created by the App Service when you turn on managed identities. The server address and the database must of course also be specified:
 
 ```python
     msi_endpoint = os.environ["MSI_ENDPOINT"]
@@ -136,7 +136,7 @@ This function will be used later to get the access token
     connstr="Driver={ODBC Driver 17 for SQL Server};Server=tcp:az-sqlserver-az.database.windows.net,1433;Database=az-titanicdb-jma";
 ```
 
-Retrieve  access token and convert it to struct:
+4) Retrieve  access token and convert it to struct:
 
 ```python
 token = bytes(get_bearer_token("https://database.windows.net/", "2017-09-01"), "UTF-8")
@@ -187,7 +187,7 @@ class BaseConfig:
 As you can see code is avoiding credential leak and address of our SQL server is still contained in the code, however this information can also be saved outside the program code.
 This code should also work in a similar form in order to grant an Azure function database access by means of managed identities [see link](https://azure.microsoft.com/en-us/blog/simplifying-security-for-serverless-and-web-apps-with-azure-functions-and-app-service/).
 
-5. To test if ODBC is included in the underlying image, [SSH in to container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container#enable-ssh) and run:
+5) To test if ODBC is included in the underlying image, [SSH in to container](https://docs.microsoft.com/en-us/azure/app-service/containers/configure-custom-container#enable-ssh) and run:
 
 ```bash
 sudo su
